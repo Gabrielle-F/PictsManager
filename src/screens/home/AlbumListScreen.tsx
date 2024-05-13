@@ -34,7 +34,7 @@ const AlbumListScreen = async () => {
         setToken(await AsyncStorage.getItem("jwtToken"))
     }
 
-    fetch(`http://10.52.4.201:8080/albums`, {
+    fetch(`http://10.68.244.77:8080/albums`, {
         headers: {
             "Authorization": getToken()
         }

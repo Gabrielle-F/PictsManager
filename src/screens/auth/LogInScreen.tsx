@@ -16,7 +16,7 @@ const LogInScreen = () => {
             setError("All fields are required");
         }
 
-        fetch("http://10.52.4.201:8080/auth/login", {
+        fetch("http://10.68.244.77:8080/auth/login", {
             method: "POST",
             headers: {
                 Accept: "application/json",

@@ -13,7 +13,7 @@ const AddAlbumScreen = () => {
     const handleSave = async () => {
         const token = await AsyncStorage.getItem("jwtToken");
 
-        fetch("http://10.52.4.201:8080/albums", {
+        fetch("http://10.68.244.77:8080/albums", {
             method: "POST",
             headers: {
                 "Authorization": token,

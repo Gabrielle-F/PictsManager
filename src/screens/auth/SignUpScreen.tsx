@@ -17,7 +17,7 @@ const SignUpScreen = () => {
         }
 
         if (password === confirmPassword) {
-            fetch("http://10.52.4.201:8080/auth/signup", {
+            fetch("http://10.68.244.77:8080/auth/signup", {
                 method: "POST",
                 headers: {
                     Accept: "application/json",
