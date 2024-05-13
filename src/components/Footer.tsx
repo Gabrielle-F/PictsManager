@@ -28,7 +28,7 @@ const Footer : React.FC<FooterProps> = ({ showMenuBtn, showAddAlbumBtn, showAddP
             )}
             {showSearchBtn && (
                 <TouchableOpacity style={styles.button} onPress={searchBtn}>
-                    <Feather name="search" size={30} color="#E0D98C" />
+                    <Feather name="log-out" size={30} color="#E0D98C" />
                 </TouchableOpacity>
             )}
         </View>

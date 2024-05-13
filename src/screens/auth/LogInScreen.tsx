@@ -1,18 +1,17 @@
 import React, {useState} from "react";
 import {StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
-import {useNavigation} from "@react-navigation/native";
-import SwitchAuthButton from "../../components/SwitchAuthButton";
-import ApiService from "../../services/ApiService";
+import {useNavigation} from "@react-navigation/native"
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import SwitchAuthButton from "../../components/SwitchAuthButton";
 
 const LogInScreen = () => {
     const navigation = useNavigation();
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState<string | undefined>("");
+    const [error, setError] = useState("");
 
     const handleLogin = () => {
-        if (username.trim() === "" || password.trim() === "") {
+        if (email.trim() === "" || password.trim() === "") {
             setError("All fields are required");
         }
 
@@ -23,7 +22,7 @@ const LogInScreen = () => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                username: username,
+                email: email,
                 password: password,
             }),
         })
@@ -31,6 +30,7 @@ const LogInScreen = () => {
             .then(async (responseData) => {
                 console.log(responseData);
                 await AsyncStorage.setItem('jwtToken', responseData.token)
+                // @ts-ignore
                 navigation.navigate('AlbumsList');
             })
     };
@@ -41,11 +41,12 @@ const LogInScreen = () => {
                 <Text style={styles.title}>PictsManager</Text>
                 <View style={styles.input}>
                     <TextInput
-                        value={username}
-                        onChangeText={setUsername}
+                        value={email}
+                        onChangeText={setEmail}
                         autoCapitalize="none"
                         autoCorrect={false}
-                        placeholder="Enter username"
+                        keyboardType="email-address"
+                        placeholder="Enter email address"
                         placeholderTextColor='#6b7280'
                         style={styles.inputControl}/>
                 </View>
@@ -68,6 +69,7 @@ const LogInScreen = () => {
                 </TouchableOpacity>
 
                 <SwitchAuthButton presentationText={"Don't have an account ?"} buttonText={'Sign up here'} onClick={() => {
+                    // @ts-ignore
                     navigation.navigate('SignUp');
                 }}/>
             </View>

@@ -9,7 +9,7 @@ import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Sample albums data
-const albums = [
+/* const albums = [
     { id: 2, title: 'Album 2', cover: 'cover2.jpg' },
     { id: 3, title: 'Album 3', cover: 'cover3.jpg' },
     { id: 4, title: 'Album 4', cover: 'cover4.jpg' },
@@ -21,28 +21,28 @@ const albums = [
     { id: 10, title: 'Album 10', cover: 'cover10.jpg' },
     { id: 11, title: 'Album 11', cover: 'cover11.jpg' },
     // Add more albums as needed
-];
+]; */
 
-const AlbumListScreen = async () => {
+const AlbumListScreen = () => {
     const navigation = useNavigation();
     const [showPopup, setShowPopup] = useState(false);
     const [showLogoutPopup, setShowLogoutPopup] = useState(false);
-    const [token, setToken] = useState("");
-    const [data, setData] = useState([]);
+    const [albums, setAlbums] = useState();
 
-    /* const getToken = async () => {
-        setToken(await AsyncStorage.getItem("jwtToken"))
-    }
-
-    fetch(`http://10.68.244.77:8080/albums`, {
-        headers: {
-            "Authorization": getToken()
-        }
-    })
-        .then((resp) => resp.json())
-        .then((json) => setData(json))
-        .catch((error) => console.error(error)) */
-
+    useEffect(() => {
+        const fetchData = async () => {
+            const token = await AsyncStorage.getItem("jwtToken");
+            fetch(`http://10.68.244.77:8080/albums`, {
+                headers: {
+                    "Authorization": token
+                }
+            })
+                .then((resp) => resp.json())
+                .then((json) => setAlbums(json))
+                .catch((error) => console.error(error));
+        };
+        fetchData();
+    }, []);
     const openModal = () => {
         setShowPopup(true);
     };
@@ -89,9 +89,9 @@ const AlbumListScreen = async () => {
     }
 
     // @ts-ignore
-    const renderItem = ({item}) => (
+    const renderItem = ({ item }) => (
         <View style={styles.item}>
-            <Image source={{uri: item.cover}} style={{width: 80, height: 80, borderWidth: 1, borderColor: '#FFF5EA'}}/>
+            {/*<Image source={{ uri: item.cover }} style={{ width: 80, height: 80, borderWidth: 1, borderColor: '#FFF5EA' }} />*/}
             <Text style={styles.albumTitle}>{item.title}</Text>
         </View>
     );

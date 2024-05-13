@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Header from '../../components/Header';
 import TxtInputAlbum from '../../components/TxtInputAlbum';
-import AsyncStorage from "@react-native-async-storage/async-storage";
+//import SelectVisibilityDropDown from "../../components/SelectVisibilityDropDown";
 import {useNavigation} from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AddAlbumScreen = () => {
     const navigation = useNavigation();
@@ -25,17 +26,17 @@ const AddAlbumScreen = () => {
             }),
         })
             .then((response) => response.json())
-            .then(async (responseData) => {
-                navigation.navigate('AlbumsList');
-            })
+            .then(async (responseData) => navigation.navigate('AlbumsList'))
         console.log('Album saved:', name);
     };
 
     return (
         <View style={styles.container}>
-            <Header showTitle={false} showBackButton={true}/>
-            <View style={styles.txtInputStyle}>
-                <TxtInputAlbum text={name} title={setAlbumName}/>
+            <Header showTitle={false} showBackButton={true} />
+            <View>
+                <TxtInputAlbum text={name} title={setAlbumName} />
+                {/* <Text style={styles.visibilityText}>Who can see it ?</Text>
+                <SelectVisibilityDropDown/> */}
             </View>
             <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
                 <Text style={styles.saveButtonText}>Save</Text>
@@ -49,46 +50,32 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#EC7272',
-        justifyContent: 'space-between',
     },
-    content: {
-        flex: 1,
-    },
-    txtInputStyle: {
-        marginStart: 60,
-        marginBottom: 180,
+    containerSecondary: {
+        marginStart: 20,
     },
     visibilityText: {
-        color: '#333',
+        color: '#FFF5EA',
         fontSize: 20,
         fontWeight: 'bold',
-        marginTop: 80,
-        marginBottom: 30,
-    },
-    selectVisibility: {
-        marginTop: 20,
-        marginBottom: 20
+        marginVertical: 20,
     },
     saveButton: {
-        backgroundColor: '#FFF5EA', // Couleur du bouton modifiée pour correspondre au thème
+        backgroundColor: '#FFF5EA',
         height: 50,
+        width: '70%',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         borderRadius: 16,
-        marginStart: 60,
-        marginEnd: 60,
-        marginTop: 20,
-        marginBottom: 120,
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderColor: '#201717',
     },
     saveButtonText: {
-        color: '#120101',
+        color: '#201717',
         fontSize: 22,
         fontWeight: 'bold',
-    },
-    saveConfirmation: {
-        color: 'green',
-        textAlign: 'center',
-        marginTop: 10,
+        alignItems: 'center',
     },
     footer: {
         position: 'absolute',
