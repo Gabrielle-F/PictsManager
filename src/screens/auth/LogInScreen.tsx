@@ -2,25 +2,37 @@ import React, {useState} from "react";
 import {StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {useNavigation} from "@react-navigation/native";
 import SwitchAuthButton from "../../components/SwitchAuthButton";
+import ApiService from "../../services/ApiService";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const LogInScreen = () => {
     const navigation = useNavigation();
-    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
+    const [error, setError] = useState<string | undefined>("");
 
     const handleLogin = () => {
-        if (email.trim() === "" || password.trim() === "") {
+        if (username.trim() === "" || password.trim() === "") {
             setError("All fields are required");
-            console.log("All fields are required")
-        } else if (email === "email" && password === "password") {
-            //TODO : call method to login, if login successful navigate to AlbumsList else show error message
-            console.log("Log in successful");
-            navigation.navigate('AlbumsList');
-        } else {
-            setError("Invalid email or password");
-            console.log("Invalid email or password")
         }
+
+        fetch("http://10.52.4.201:8080/auth/login", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password,
+            }),
+        })
+            .then((response) => response.json())
+            .then(async (responseData) => {
+                console.log(responseData);
+                await AsyncStorage.setItem('jwtToken', responseData.token)
+                navigation.navigate('AlbumsList');
+            })
     };
 
     return (
@@ -29,12 +41,11 @@ const LogInScreen = () => {
                 <Text style={styles.title}>PictsManager</Text>
                 <View style={styles.input}>
                     <TextInput
-                        value={email}
-                        onChangeText={setEmail}
+                        value={username}
+                        onChangeText={setUsername}
                         autoCapitalize="none"
                         autoCorrect={false}
-                        keyboardType="email-address"
-                        placeholder="Enter email address"
+                        placeholder="Enter username"
                         placeholderTextColor='#6b7280'
                         style={styles.inputControl}/>
                 </View>

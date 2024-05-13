@@ -16,11 +16,6 @@ interface FooterProps {
 const Footer : React.FC<FooterProps> = ({ showMenuBtn, showAddAlbumBtn, showAddPictureBtn, showSearchBtn, menuBtn, addAlbumBtn, addPictureBtn, searchBtn }) => {
     return (
         <View style={styles.bottomBar}>
-            {showMenuBtn && (
-                <TouchableOpacity style={styles.button} onPress={menuBtn}>
-                    <Feather name="menu" size={30} color="#E0D98C" />
-                </TouchableOpacity>
-            )}
             {showAddAlbumBtn && (
                 <TouchableOpacity style={styles.button} onPress={addAlbumBtn}>
                     <Feather name="folder-plus" size={30} color="#E0D98C" />

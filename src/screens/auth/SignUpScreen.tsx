@@ -2,22 +2,36 @@ import React, {useState} from "react";
 import {StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {useNavigation} from "@react-navigation/native";
 import SwitchAuthButton from "../../components/SwitchAuthButton";
+import ApiService from "../../services/ApiService";
 
 const SignUpScreen = () => {
     const navigation = useNavigation();
-    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [error, setError] = useState("");
+    const [error, setError] = useState<string | undefined>("");
 
-    const handleSignUp = () => {
-        if (email.trim() === "" || password.trim() === "" || username.trim() === "" || confirmPassword.trim() === "") {
+    const handleSignUp = async () => {
+        if (password.trim() === "" || username.trim() === "" || confirmPassword.trim() === "") {
             setError("All fields are required");
-            //TODO : add scenario where user sign up successfully
-        } else {
-            setError("");
-            navigation.navigate('AlbumsList');
+        }
+
+        if (password === confirmPassword) {
+            fetch("http://10.52.4.201:8080/auth/signup", {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password,
+                }),
+            })
+                .then((response) => response.json())
+                .then((responseData) => {
+                    navigation.navigate('Login');
+                })
         }
     };
 
@@ -25,18 +39,6 @@ const SignUpScreen = () => {
         <View style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.title}>PictsManager</Text>
-                <View style={styles.input}>
-                    <TextInput
-                        value={email}
-                        onChangeText={setEmail}
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                        keyboardType="email-address"
-                        placeholder="Enter email address"
-                        placeholderTextColor='#6b7280'
-                        style={styles.inputControl}/>
-                </View>
-
                 <View style={styles.input}>
                     <TextInput
                         value={username}

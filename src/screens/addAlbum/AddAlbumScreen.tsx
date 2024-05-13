@@ -3,12 +3,32 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Header from '../../components/Header';
 import TxtInputAlbum from '../../components/TxtInputAlbum';
 import SelectVisibilityDropDown from "../../components/SelectVisibilityDropDown";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useNavigation} from "@react-navigation/native";
 
 const AddAlbumScreen = () => {
+    const navigation = useNavigation();
     const [name, setAlbumName] = useState('');
 
-    const handleSave = () => {
-        //TODO : call method to save album
+    const handleSave = async () => {
+        const token = await AsyncStorage.getItem("jwtToken");
+
+        fetch("http://10.52.4.201:8080/albums", {
+            method: "POST",
+            headers: {
+                "Authorization": token,
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                title: name,
+                description: "",
+            }),
+        })
+            .then((response) => response.json())
+            .then(async (responseData) => {
+                navigation.navigate('AlbumsList');
+            })
         console.log('Album saved:', name);
     };
 
@@ -17,8 +37,6 @@ const AddAlbumScreen = () => {
             <Header showTitle={false} showBackButton={true} />
             <View>
                 <TxtInputAlbum text={name} title={setAlbumName} />
-                <Text style={styles.visibilityText}>Who can see it ?</Text>
-                <SelectVisibilityDropDown/>
             </View>
             <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
                 <Text style={styles.saveButtonText}>Save</Text>

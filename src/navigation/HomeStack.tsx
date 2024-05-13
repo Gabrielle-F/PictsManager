@@ -8,6 +8,7 @@ import AlbumListScreen from "../screens/home/AlbumListScreen";
 import AddAlbumScreen from "../screens/addAlbum/AddAlbumScreen";
 import {colors} from "../styles/colors";
 import TakePictureScreen from "../screens/addPicture/TakePictureScreen";
+import AlbumListScreenDebug from "../screens/home/AlbumListScreenDebug";
 
 const HomeStack = createNativeStackNavigator();
 
@@ -22,9 +23,9 @@ const HomeStackNavigator = () => {
             }}>
                 <HomeStack.Screen name="Login" component={LogInScreen} initialParams={{ backgroundColor: colors.primary }}/>
                 <HomeStack.Screen name="SignUp" component={SignUpScreen} initialParams={{ backgroundColor: colors.primary }}/>
-                <HomeStack.Screen name="AlbumsList" component={AlbumListScreen} initialParams={{ backgroundColor: colors.headerAndFooter }}/>
+                <HomeStack.Screen name="AlbumsList" component={AlbumListScreenDebug} initialParams={{ backgroundColor: colors.headerAndFooter }}/>
                 <HomeStack.Screen name="AddAlbum" component={AddAlbumScreen} initialParams={{ backgroundColor: colors.headerAndFooter }}/>
-                <HomeStack.Screen name="TakePicture" component={TakePictureScreen} initialParams={{ backgroundColor: colors.headerAndFooter }}/>
+                { /* <HomeStack.Screen name="TakePicture" component={TakePictureScreen} initialParams={{ backgroundColor: colors.headerAndFooter }}/> */}
             </HomeStack.Navigator>
         </SafeAreaView>
     );

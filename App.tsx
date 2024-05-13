@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 
 import RootNavigator from './src/navigation';
+import {registerRootComponent} from "expo";
 
 export default function App() {
   return (
@@ -10,3 +11,5 @@ export default function App() {
       </>
   );
 }
+
+registerRootComponent(App);

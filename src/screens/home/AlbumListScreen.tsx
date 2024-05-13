@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { StyleSheet, View, FlatList, Text, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Header from "../../components/Header";
@@ -6,6 +6,7 @@ import Footer from "../../components/Footer";
 import AddPictureModal from "../../components/AddPictureModal";
 import LogoutModal from "../../components/LogoutModal";
 import * as ImagePicker from 'expo-image-picker';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Sample albums data
 const albums = [
@@ -22,10 +23,25 @@ const albums = [
     // Add more albums as needed
 ];
 
-const AlbumListScreen = () => {
+const AlbumListScreen = async () => {
     const navigation = useNavigation();
     const [showPopup, setShowPopup] = useState(false);
     const [showLogoutPopup, setShowLogoutPopup] = useState(false);
+    const [token, setToken] = useState("");
+    const [data, setData] = useState([]);
+
+    /* const getToken = async () => {
+        setToken(await AsyncStorage.getItem("jwtToken"))
+    }
+
+    fetch(`http://10.52.4.201:8080/albums`, {
+        headers: {
+            "Authorization": getToken()
+        }
+    })
+        .then((resp) => resp.json())
+        .then((json) => setData(json))
+        .catch((error) => console.error(error)) */
 
     const openModal = () => {
         setShowPopup(true);
@@ -73,9 +89,9 @@ const AlbumListScreen = () => {
     }
 
     // @ts-ignore
-    const renderItem = ({ item }) => (
+    const renderItem = ({item}) => (
         <View style={styles.item}>
-            <Image source={{ uri: item.cover }} style={{ width: 80, height: 80, borderWidth: 1, borderColor: '#FFF5EA' }} />
+            <Image source={{uri: item.cover}} style={{width: 80, height: 80, borderWidth: 1, borderColor: '#FFF5EA'}}/>
             <Text style={styles.albumTitle}>{item.title}</Text>
         </View>
     );
