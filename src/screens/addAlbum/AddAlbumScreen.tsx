@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Header from '../../components/Header';
 import TxtInputAlbum from '../../components/TxtInputAlbum';
-import SelectVisibilityDropDown from "../../components/SelectVisibilityDropDown";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useNavigation} from "@react-navigation/native";
 
@@ -34,9 +33,9 @@ const AddAlbumScreen = () => {
 
     return (
         <View style={styles.container}>
-            <Header showTitle={false} showBackButton={true} />
-            <View>
-                <TxtInputAlbum text={name} title={setAlbumName} />
+            <Header showTitle={false} showBackButton={true}/>
+            <View style={styles.txtInputStyle}>
+                <TxtInputAlbum text={name} title={setAlbumName}/>
             </View>
             <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
                 <Text style={styles.saveButtonText}>Save</Text>
@@ -50,32 +49,46 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#EC7272',
+        justifyContent: 'space-between',
     },
-    containerSecondary: {
-        marginStart: 20,
+    content: {
+        flex: 1,
+    },
+    txtInputStyle: {
+        marginStart: 60,
+        marginBottom: 180,
     },
     visibilityText: {
-        color: '#FFF5EA',
+        color: '#333',
         fontSize: 20,
         fontWeight: 'bold',
-        marginVertical: 20,
+        marginTop: 80,
+        marginBottom: 30,
+    },
+    selectVisibility: {
+        marginTop: 20,
+        marginBottom: 20
     },
     saveButton: {
-        backgroundColor: '#FFF5EA',
+        backgroundColor: '#FFF5EA', // Couleur du bouton modifiée pour correspondre au thème
         height: 50,
-        width: '70%',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         borderRadius: 16,
-        borderStyle: 'solid',
-        borderWidth: 1,
-        borderColor: '#201717',
+        marginStart: 60,
+        marginEnd: 60,
+        marginTop: 20,
+        marginBottom: 120,
     },
     saveButtonText: {
-        color: '#201717',
+        color: '#120101',
         fontSize: 22,
         fontWeight: 'bold',
-        alignItems: 'center',
+    },
+    saveConfirmation: {
+        color: 'green',
+        textAlign: 'center',
+        marginTop: 10,
     },
     footer: {
         position: 'absolute',
